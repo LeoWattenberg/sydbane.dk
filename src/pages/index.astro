@@ -1,5 +1,8 @@
 ---
-
+import Navbar from '../components/Navbar.astro';
+import Hero from '../components/Hero.astro';
+import Map from '../components/Map.astro';
+import Footer from '../components/Footer.astro';
 ---
 
 <html lang="en">
@@ -8,9 +11,17 @@
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
+		<title>Sydbane.dk</title>
 	</head>
 	<body>
-		<h1>Astro</h1>
+		<Navbar />
+		<Hero />
+		<main style="max-width: 960px; margin: 0 auto; padding: 2rem 1rem;">
+			<section>
+				<h2>Map</h2>
+				<Map />
+			</section>
+		</main>
+		<Footer />
 	</body>
 </html>

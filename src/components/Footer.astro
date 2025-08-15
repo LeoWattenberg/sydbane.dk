@@ -1,0 +1,48 @@
+---
+// src/components/Footer.astro
+const year = new Date().getFullYear();
+const siteName = 'Sydbane.dk';
+---
+<style>
+  .footer { 
+    background:#222; 
+    color:#eee; 
+    padding:2rem 1rem; 
+    font-size:0.95rem; 
+  }
+  .footer-inner { 
+    max-width:960px; 
+    margin:0 auto; 
+    display:flex; 
+    flex-direction:column; 
+    gap:1.25rem; 
+  }
+  .footer-top { 
+    display:flex; 
+    flex-wrap:wrap; 
+    gap:2rem; 
+    align-items:flex-start; 
+  }
+  .brand { font-weight:600; letter-spacing:0.5px; }
+  .footer-nav { list-style:none; padding:0; margin:0; display:flex; gap:1rem; flex-wrap:wrap; }
+  .footer-nav a { color:#eee; text-decoration:none; }
+  .footer-nav a:hover, .footer-nav a:focus { text-decoration:underline; }
+  .legal { opacity:0.7; }
+  @media (min-width: 640px){
+    .footer-inner { flex-direction:column; }
+    .footer-top { justify-content:space-between; }
+  }
+</style>
+<footer class="footer" role="contentinfo">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="brand">{siteName}</div>
+      <ul class="footer-nav" aria-label="Footer navigation">
+        <li><a href="/about">About</a></li>
+        <li><a href="/contact">Contact</a></li>
+        <li><a href="/privacy">Privacy</a></li>
+      </ul>
+    </div>
+    <div class="legal">© {year} {siteName}. All rights reserved.</div>
+  </div>
+</footer>

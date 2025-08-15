@@ -1,0 +1,61 @@
+---
+// Map.astro - Leaflet map component loading custom GeoJSON
+import customData from './map/customData.geo.json';
+// Approximate center of Southern Denmark (Region Syddanmark / including Funen & South Jutland)
+const center = [55.25, 9.50];
+const zoom = 8; // Wider view to cover the southern region
+const autoFit = false; // Disable auto-fit so manual center is respected
+---
+<style>
+  .map-wrapper { position: relative; }
+  #leaflet-map { height: 400px; width: 100%; border-radius: 8px; overflow: hidden; }
+  .leaflet-container { font: inherit; }
+</style>
+<div class="map-wrapper">
+  <div id="leaflet-map" data-center={JSON.stringify(center)} data-zoom={zoom} data-autofit={autoFit} data-geojson={JSON.stringify(customData)}></div>
+</div>
+<script>
+  import 'leaflet/dist/leaflet.css';
+  import L from 'leaflet';
+
+  const el = document.getElementById('leaflet-map');
+  if (el) {
+  const center = el.dataset.center ? JSON.parse(el.dataset.center) : [0,0];
+  const zoom = el.dataset.zoom ? parseInt(el.dataset.zoom, 10) : 10;
+  const geojson = el.dataset.geojson ? JSON.parse(el.dataset.geojson) : { type: 'FeatureCollection', features: [] };
+  const autoFit = el.dataset.autofit === 'true';
+
+    const map = L.map(el).setView(center, zoom);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    const geoLayer = L.geoJSON(geojson, {
+      onEachFeature: (feature, layer) => {
+        if (feature.properties && feature.properties.name) {
+          layer.bindPopup(`<strong>${feature.properties.name}</strong><br/>${feature.properties.description || ''}`);
+        }
+      },
+      pointToLayer: (feature, latlng) => {
+        return L.circleMarker(latlng, {
+          radius: 6,
+            fillColor: '#ff6b6b',
+            color: '#c73e3e',
+            weight: 1,
+            opacity: 1,
+            fillOpacity: 0.85
+        });
+      },
+      style: () => ({
+        color: '#4e54c8',
+        weight: 2,
+        fillColor: '#8f94fb',
+        fillOpacity: 0.3
+      })
+    }).addTo(map);
+
+    if (autoFit && geoLayer.getLayers().length) {
+      map.fitBounds(geoLayer.getBounds(), { padding: [20, 20] });
+    }
+  }
+</script>
