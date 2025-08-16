@@ -39,7 +39,7 @@
         "name": "Branch: Tinglev – Borderslev – Hjordkær – Rødekro",
         "kind": "rail",
         "route": "tinglev-branch",
-        "importance": "secondary",
+        "importance": "primary",
         "description": "Branch line starting at Tinglev and running north to Borderslev, Hjordkær and Rødekro",
         "approximate": true
       },
@@ -77,7 +77,7 @@
         "name": "Branch: Tinglev – Terkelsbøl – Bylderup – Jejsing – Tønder",
         "kind": "rail",
         "route": "tinglev-tonder-branch",
-        "importance": "secondary",
+        "importance": "primary",
         "description": "Branch from Tinglev to Tønder via Terkelsbøl, Bylderup and Jejsing",
         "approximate": false
       },
