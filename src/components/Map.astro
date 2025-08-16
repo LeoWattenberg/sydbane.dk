@@ -1,27 +1,15 @@
 ---
 // Map.astro - Leaflet map component loading custom GeoJSON
 import customData from './map/customData.geo.json';
-// Center roughly adjusted to Sønderborg–Gråsten corridor
-const center = [54.914, 9.70];
+
 const zoom = 11; // Closer view on the highlighted line
 const autoFit = true; // Fit to highlighted line if present
 ---
 <style>
-  .map-wrapper { position: relative; }
   #leaflet-map { height: 420px; width: 100%; border-radius: 8px; overflow: hidden; }
-  .leaflet-container { font: inherit; }
-  .legend { position:absolute; bottom:8px; right:8px; background:rgba(255,255,255,0.92); padding:6px 10px; font-size:12px; border-radius:4px; box-shadow:0 1px 3px rgba(0,0,0,0.2); }
-  .legend-row { display:flex; align-items:center; gap:6px; margin:2px 0; }
-  .swatch-line { width:26px; height:4px; background:linear-gradient(90deg,#ff8c37,#ffb347); border-radius:2px; }
-  .swatch-station { width:10px; height:10px; background:#ff4d5a; border:1px solid #b3212e; border-radius:50%; }
 </style>
-<div class="map-wrapper">
-  <div id="leaflet-map" data-center={JSON.stringify(center)} data-zoom={zoom} data-autofit={autoFit} data-geojson={JSON.stringify(customData)}></div>
-  <div class="legend" aria-label="Map legend">
-    <div class="legend-row"><div class="swatch-line"></div>Highlighted rail (Sønderborg–Gråsten)</div>
-    <div class="legend-row"><div class="swatch-station"></div>Station</div>
-  </div>
-</div>
+  <div id="leaflet-map" data-zoom={zoom} data-autofit={autoFit} data-geojson={JSON.stringify(customData)}></div>
+
 <!-- Load Leaflet CSS and UMD JS via CDN to avoid bare import specifier errors in the browser -->
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
