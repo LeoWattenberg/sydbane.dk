@@ -18,7 +18,7 @@
           [9.358770016379248, 54.82416880657255],
           [9.32639, 54.85917],
           [9.3050, 54.8950],
-          [9.2500, 54.9333],
+          [9.258310256894303, 54.93626813290546],
           [9.33137204201318, 54.93240098784398],
           [9.398291448744882, 54.93518802999928],
           [9.446837235980793, 54.92586459012723],
@@ -33,11 +33,34 @@
         ]
       }
     },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Branch: Tinglev – Borderslev – Hjordkær – Rødekro",
+        "kind": "rail",
+        "route": "tinglev-branch",
+        "importance": "secondary",
+        "description": "Branch line starting at Tinglev and running north to Borderslev, Hjordkær and Rødekro",
+        "approximate": true
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [9.258310256894303, 54.93626813290546],
+          [9.2800, 54.9820],
+          [9.3045215, 55.0266429],
+          [9.3410181, 55.0696081]
+        ]
+      }
+    },
   { "type": "Feature", "properties": { "name": "Flensburg", "kind": "station", "description": "Flensburg" }, "geometry": { "type": "Point", "coordinates": [9.43698147289209, 54.77472140574351] } },
   { "type": "Feature", "properties": { "name": "Padborg", "kind": "station", "description": "Padborg" }, "geometry": { "type": "Point", "coordinates": [9.358770016379248, 54.82416880657255] } },
   { "type": "Feature", "properties": { "name": "Schafhaus", "kind": "station", "description": "Fårhus (Schafhus)", "alt_name": "Fårhus", "approximate": false }, "geometry": { "type": "Point", "coordinates": [9.32639, 54.85917] } },
   { "type": "Feature", "properties": { "name": "Bajstrup", "kind": "station", "description": "Bajstrup", "approximate": true }, "geometry": { "type": "Point", "coordinates": [9.3050, 54.8950] } },
-    { "type": "Feature", "properties": { "name": "Tinglev", "kind": "station", "description": "Tinglev" }, "geometry": { "type": "Point", "coordinates": [9.2500, 54.9333] } },
+  { "type": "Feature", "properties": { "name": "Tinglev", "kind": "station", "description": "Tinglev" }, "geometry": { "type": "Point", "coordinates": [9.258310256894303, 54.93626813290546] } },
+  { "type": "Feature", "properties": { "name": "Borderslev", "kind": "station", "description": "Borderslev (approx)", "approximate": true }, "geometry": { "type": "Point", "coordinates": [9.2800, 54.9820] } },
+  { "type": "Feature", "properties": { "name": "Hjordkær", "kind": "station", "description": "Hjordkær", "approximate": false }, "geometry": { "type": "Point", "coordinates": [9.3045215, 55.0266429] } },
+  { "type": "Feature", "properties": { "name": "Rødekro", "kind": "station", "description": "Rødekro", "approximate": false }, "geometry": { "type": "Point", "coordinates": [9.3410181, 55.0696081] } },
   { "type": "Feature", "properties": { "name": "Bjerndrup", "kind": "station", "description": "Bjerndrup", "approximate": false }, "geometry": { "type": "Point", "coordinates": [9.33137204201318, 54.93240098784398] } },
   { "type": "Feature", "properties": { "name": "Kliplev", "kind": "station", "description": "Kliplev" }, "geometry": { "type": "Point", "coordinates": [9.398291448744882, 54.93518802999928] } },
   { "type": "Feature", "properties": { "name": "Lundtoft", "kind": "station", "description": "Lundtoft", "approximate": false }, "geometry": { "type": "Point", "coordinates": [9.446837235980793, 54.92586459012723] } },
@@ -47,7 +70,52 @@
   { "type": "Feature", "properties": { "name": "Adsbøl", "kind": "station", "description": "Adsbøl", "approximate": false }, "geometry": { "type": "Point", "coordinates": [9.617880458786924, 54.9434779155387] } },
   { "type": "Feature", "properties": { "name": "Avnbøl", "kind": "station", "description": "Avnbøl", "approximate": false }, "geometry": { "type": "Point", "coordinates": [9.646858141343357, 54.96030497556103] } },
   { "type": "Feature", "properties": { "name": "Vester Sottrup", "kind": "station", "description": "Vester Sottrup", "approximate": false }, "geometry": { "type": "Point", "coordinates": [9.696845266379185, 54.94328781060874] } },
-  { "type": "Feature", "properties": { "name": "Ragebøl", "kind": "station", "description": "Ragebøl", "approximate": false }, "geometry": { "type": "Point", "coordinates": [9.735352242785954, 54.93063904974282] } },
-  { "type": "Feature", "properties": { "name": "Sønderborg St.", "kind": "station", "description": "Sønderborg Station" }, "geometry": { "type": "Point", "coordinates": [9.778601783025557, 54.91265119891017] } }
+    { "type": "Feature", "properties": { "name": "Ragebøl", "kind": "station", "description": "Ragebøl", "approximate": false }, "geometry": { "type": "Point", "coordinates": [9.735352242785954, 54.93063904974282] } },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Branch: Tinglev – Terkelsbøl – Bylderup – Jejsing – Tønder",
+        "kind": "rail",
+        "route": "tinglev-tonder-branch",
+        "importance": "secondary",
+        "description": "Branch from Tinglev to Tønder via Terkelsbøl, Bylderup and Jejsing",
+        "approximate": false
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [9.258310256894303, 54.93626813290546],
+          [9.200674411004217, 54.94689112418889],
+          [9.098315547052332, 54.94251206594317],
+          [8.967378743856194, 54.9417312533072],
+          [8.860734695147412, 54.93318961009976]
+        ]
+      }
+    },
+    { "type": "Feature", "properties": { "name": "Terkelsbøl", "kind": "station", "description": "Terkelsbøl", "approximate": false }, "geometry": { "type": "Point", "coordinates": [9.200674411004217, 54.94689112418889] } },
+    { "type": "Feature", "properties": { "name": "Bylderup", "kind": "station", "description": "Bylderup", "approximate": false }, "geometry": { "type": "Point", "coordinates": [9.098315547052332, 54.94251206594317] } },
+    { "type": "Feature", "properties": { "name": "Jejsing", "kind": "station", "description": "Jejsing", "approximate": false }, "geometry": { "type": "Point", "coordinates": [8.967378743856194, 54.9417312533072] } },
+    { "type": "Feature", "properties": { "name": "Tønder", "kind": "station", "description": "Tønder", "approximate": false }, "geometry": { "type": "Point", "coordinates": [8.860734695147412, 54.93318961009976] } },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Branch: Rødekro – Aabenraa",
+        "kind": "rail",
+        "route": "rodekro-aabenraa-branch",
+        "importance": "secondary",
+        "description": "Branch from Rødekro to Aabenraa",
+        "stroke-dasharray": "4 4",
+        "approximate": false
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [9.3410181, 55.0696081],
+          [9.418069193772794, 55.04913121024768]
+        ]
+      }
+    },
+    { "type": "Feature", "properties": { "name": "Aabenraa", "kind": "station", "description": "Aabenraa", "approximate": false }, "geometry": { "type": "Point", "coordinates": [9.418069193772794, 55.04913121024768] } },
+    { "type": "Feature", "properties": { "name": "Sønderborg St.", "kind": "station", "description": "Sønderborg Station" }, "geometry": { "type": "Point", "coordinates": [9.778601783025557, 54.91265119891017] } }
   ]
 }
