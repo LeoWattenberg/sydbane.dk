@@ -3,24 +3,51 @@
   "features": [
     {
       "type": "Feature",
-      "properties": { "name": "Sample Point", "description": "An example location" },
-      "geometry": { "type": "Point", "coordinates": [12.568337, 55.676098] }
-    },
-    {
-      "type": "Feature",
-      "properties": { "name": "Sample Polygon", "description": "Area of interest" },
+      "properties": {
+        "name": "Rail: Flensburg – Sønderborg",
+        "kind": "rail",
+        "route": "flensburg-sonderborg",
+        "importance": "primary",
+        "description": "FLENSBURG – Padborg – Schafhaus – Bajstrup – Tinglev – Bjerndrup – Kliplev – Lundtoft – Tørsbøl – Rinkenæs – Gråsten – Adsbøl – Avnbøl – Vester Sottrup – Ragebøl – SØNDERBORG St.",
+        "approximate": true
+      },
       "geometry": {
-        "type": "Polygon",
+        "type": "LineString",
         "coordinates": [
-          [
-            [12.56, 55.68],
-            [12.57, 55.68],
-            [12.57, 55.67],
-            [12.56, 55.67],
-            [12.56, 55.68]
-          ]
+          [9.43698147289209, 54.77472140574351],
+          [9.358770016379248, 54.82416880657255],
+          [9.32639, 54.85917],
+          [9.3050, 54.8950],
+          [9.2500, 54.9333],
+          [9.33137204201318, 54.93240098784398],
+          [9.398291448744882, 54.93518802999928],
+          [9.446837235980793, 54.92586459012723],
+          [9.494253419482916, 54.90964233495395],
+          [9.55676417778305, 54.89713153037992],
+          [9.5986, 54.9196],
+          [9.617880458786924, 54.9434779155387],
+          [9.646858141343357, 54.96030497556103],
+          [9.696845266379185, 54.94328781060874],
+          [9.735352242785954, 54.93063904974282],
+          [9.778601783025557, 54.91265119891017]
         ]
       }
-    }
+    },
+  { "type": "Feature", "properties": { "name": "Flensburg", "kind": "station", "description": "Flensburg" }, "geometry": { "type": "Point", "coordinates": [9.43698147289209, 54.77472140574351] } },
+  { "type": "Feature", "properties": { "name": "Padborg", "kind": "station", "description": "Padborg" }, "geometry": { "type": "Point", "coordinates": [9.358770016379248, 54.82416880657255] } },
+  { "type": "Feature", "properties": { "name": "Schafhaus", "kind": "station", "description": "Fårhus (Schafhus)", "alt_name": "Fårhus", "approximate": false }, "geometry": { "type": "Point", "coordinates": [9.32639, 54.85917] } },
+  { "type": "Feature", "properties": { "name": "Bajstrup", "kind": "station", "description": "Bajstrup", "approximate": true }, "geometry": { "type": "Point", "coordinates": [9.3050, 54.8950] } },
+    { "type": "Feature", "properties": { "name": "Tinglev", "kind": "station", "description": "Tinglev" }, "geometry": { "type": "Point", "coordinates": [9.2500, 54.9333] } },
+  { "type": "Feature", "properties": { "name": "Bjerndrup", "kind": "station", "description": "Bjerndrup", "approximate": false }, "geometry": { "type": "Point", "coordinates": [9.33137204201318, 54.93240098784398] } },
+  { "type": "Feature", "properties": { "name": "Kliplev", "kind": "station", "description": "Kliplev" }, "geometry": { "type": "Point", "coordinates": [9.398291448744882, 54.93518802999928] } },
+  { "type": "Feature", "properties": { "name": "Lundtoft", "kind": "station", "description": "Lundtoft", "approximate": false }, "geometry": { "type": "Point", "coordinates": [9.446837235980793, 54.92586459012723] } },
+  { "type": "Feature", "properties": { "name": "Tørsbøl", "kind": "station", "description": "Tørsbøl", "approximate": false }, "geometry": { "type": "Point", "coordinates": [9.494253419482916, 54.90964233495395] } },
+  { "type": "Feature", "properties": { "name": "Rinkenæs", "kind": "station", "description": "Rinkenæs" }, "geometry": { "type": "Point", "coordinates": [9.55676417778305, 54.89713153037992] } },
+    { "type": "Feature", "properties": { "name": "Gråsten", "kind": "station", "description": "Gråsten" }, "geometry": { "type": "Point", "coordinates": [9.5986, 54.9196] } },
+  { "type": "Feature", "properties": { "name": "Adsbøl", "kind": "station", "description": "Adsbøl", "approximate": false }, "geometry": { "type": "Point", "coordinates": [9.617880458786924, 54.9434779155387] } },
+  { "type": "Feature", "properties": { "name": "Avnbøl", "kind": "station", "description": "Avnbøl", "approximate": false }, "geometry": { "type": "Point", "coordinates": [9.646858141343357, 54.96030497556103] } },
+  { "type": "Feature", "properties": { "name": "Vester Sottrup", "kind": "station", "description": "Vester Sottrup", "approximate": false }, "geometry": { "type": "Point", "coordinates": [9.696845266379185, 54.94328781060874] } },
+  { "type": "Feature", "properties": { "name": "Ragebøl", "kind": "station", "description": "Ragebøl", "approximate": false }, "geometry": { "type": "Point", "coordinates": [9.735352242785954, 54.93063904974282] } },
+  { "type": "Feature", "properties": { "name": "Sønderborg St.", "kind": "station", "description": "Sønderborg Station" }, "geometry": { "type": "Point", "coordinates": [9.778601783025557, 54.91265119891017] } }
   ]
 }
