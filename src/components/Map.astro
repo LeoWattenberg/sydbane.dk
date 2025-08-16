@@ -22,78 +22,114 @@ const autoFit = true; // Fit to highlighted line if present
     <div class="legend-row"><div class="swatch-station"></div>Station</div>
   </div>
 </div>
-<script>
-  import 'leaflet/dist/leaflet.css';
-  import L from 'leaflet';
+<!-- Load Leaflet CSS and UMD JS via CDN to avoid bare import specifier errors in the browser -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
-  const el = document.getElementById('leaflet-map');
-  if (el) {
-    const center = el.dataset.center ? JSON.parse(el.dataset.center) : [0,0];
-    const zoom = el.dataset.zoom ? parseInt(el.dataset.zoom, 10) : 10;
-    const geojson = el.dataset.geojson ? JSON.parse(el.dataset.geojson) : { type: 'FeatureCollection', features: [] };
-    const autoFit = el.dataset.autofit === 'true';
+<script type="module">
 
-    const map = L.map(el).setView(center, zoom);
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+  // Only run client-side
+  if (typeof window !== 'undefined') {
+    const el = document.getElementById('leaflet-map');
+    if (el) {
+      // Avoid initializing the same DOM node more than once
+      if (!el._leafletInitialized) {
+        el._leafletInitialized = true;
+
+        // Safe dataset parsing
+        let center = [0, 0];
+    let zoom = 10;
+    let geojson = { type: 'FeatureCollection', features: [] };
+    let autoFit = false;
+    try {
+      center = el.dataset.center ? JSON.parse(el.dataset.center) : center;
+      zoom = el.dataset.zoom ? parseInt(el.dataset.zoom, 10) : zoom;
+      geojson = el.dataset.geojson ? JSON.parse(el.dataset.geojson) : geojson;
+      autoFit = el.dataset.autofit === 'true' || el.dataset.autofit === '1';
+    } catch (e) {
+      // if parsing fails, fall back to defaults
+      // console.warn('Map dataset parse error', e);
+    }
+
+    const TILE_URL = 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
+    const TILE_OPTS = {
       attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
       subdomains: 'abcd',
       maxZoom: 20
-    }).addTo(map);
+    };
 
-    function featureStyle(feature) {
-      const p = feature.properties || {};
+  const map = window.L ? window.L.map(el).setView(center, zoom) : L.map(el).setView(center, zoom);
+    L.tileLayer(TILE_URL, TILE_OPTS).addTo(map);
+
+    const LARGE_STATIONS = new Set(['Flensburg', 'Padborg', 'Tinglev', 'Tønder', 'Rødekro', 'Kliplev', 'Gråsten', 'Sønderborg St.', 'Sønderborg']);
+
+    function baseFeatureStyle(feature) {
+      const p = feature && feature.properties ? feature.properties : {};
+      let style;
       if (p.route === 'sonderborg-graasten') {
-        return {
-          color: '#ff8c37',
-          weight: 6,
-          opacity: 0.95,
-          lineCap: 'round'
-        };
+        style = { color: '#ff8c37', weight: 6, opacity: 0.95, lineCap: 'round' };
+      } else if (p.kind === 'rail') {
+        // Base rail style (branches inherit this, dashed if property present)
+        style = { color: '#888', weight: 3, opacity: 0.7 };
+      } else {
+        style = { color: '#4e54c8', weight: 2, opacity: 0.6, fillOpacity: 0.25 };
       }
-      if (p.kind === 'rail') {
-        return { color: '#888', weight: 3, opacity: 0.7 };
+      if (p['stroke-dasharray']) {
+        // Leaflet expects dash lengths in a string or array; we pass through
+        style.dashArray = p['stroke-dasharray'];
       }
-      return { color: '#4e54c8', weight: 2, opacity: 0.6, fillOpacity: 0.25 };
+      return style;
+    }
+
+    function createStationMarker(feature, latlng) {
+      const name = feature.properties?.name || '';
+      const isLarge = LARGE_STATIONS.has(name);
+      const radius = isLarge ? 9 : 6;
+      const fillColor = isLarge ? '#ff4d5a' : '#666';
+      return L.circleMarker(latlng, {
+        radius,
+        fillColor,
+        color: '#b3212e',
+        weight: 1,
+        opacity: 1,
+        fillOpacity: 1
+      });
     }
 
     const railLineLayers = [];
 
-    const layer = L.geoJSON(geojson, {
-      style: featureStyle,
+    const geoLayer = L.geoJSON(geojson, {
+      style: baseFeatureStyle,
       pointToLayer: (feature, latlng) => {
-        if (feature.properties?.kind === 'station') {
-            const largeStations = new Set(['Flensburg','Padborg','Tinglev','Tønder', 'Rødekro','Kliplev','Gråsten','Sønderborg St.','Sønderborg']);
-            const name = feature.properties?.name || '';
-            const radius = largeStations.has(name) ? 9 : 6;
-            const color = largeStations.has(name) ? '#ff4d5a' : '#666';
-            return L.circleMarker(latlng, {
-              radius,
-              fillColor: color,
-              color: '#b3212e',
-              weight: 1,
-              opacity: 1,
-              fillOpacity: 1
-            });
-        }
-        return L.circleMarker(latlng, { radius:4, fillColor:'#666', color:'#333', weight:1, opacity:0.8, fillOpacity:0.8 });
+        if (feature.properties?.kind === 'station') return createStationMarker(feature, latlng);
+        return L.circleMarker(latlng, { radius: 4, fillColor: '#666', color: '#333', weight: 1, opacity: 0.8, fillOpacity: 0.8 });
       },
       onEachFeature: (feature, lyr) => {
         if (feature.properties?.name) {
-          lyr.bindPopup(`<strong>${feature.properties.name}</strong><br/>${feature.properties.description || ''}`);
+          const desc = feature.properties.description || '';
+          lyr.bindPopup(`<strong>${feature.properties.name}</strong><br/>${desc}`);
         }
         if (feature.properties?.route === 'sonderborg-graasten') {
+          // keep a reference to the highlighted rail line(s)
           railLineLayers.push(lyr);
           lyr.on('mouseover', () => lyr.setStyle({ weight: 8 }));
-          lyr.on('mouseout', () => lyr.setStyle(featureStyle(feature)));
+          lyr.on('mouseout', () => lyr.setStyle(baseFeatureStyle(feature)));
         }
       }
     }).addTo(map);
 
+    // Fit to the highlighted rail line(s) when requested, otherwise fit to all features
     if (autoFit) {
-      const target = railLineLayers.length ? railLineLayers : layer.getLayers();
-      if (target.length) {
+      const target = railLineLayers.length ? railLineLayers : geoLayer.getLayers();
+      if (target && target.length) {
         const group = L.featureGroup(target);
+        // small padding so markers/lines don't touch the edges
         map.fitBounds(group.getBounds(), { padding: [25, 25] });
+      }
+    }
+
+    // Trigger a resize in case the map container was hidden before initialization
+    setTimeout(() => map.invalidateSize(), 50);
       }
     }
   }
