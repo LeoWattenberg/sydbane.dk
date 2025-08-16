@@ -1,0 +1,61 @@
+---
+import Navbar from './Navbar.astro';
+import Footer from './Footer.astro';
+const { title = 'Sydbane.dk' } = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+
+    <style>
+      :root{
+        --max-width:960px;
+        --bg: #f7f8fb;
+        --text: #111;
+        --muted: #666;
+        --accent: #4e54c8;
+      }
+      html,body{height:100%;}
+      body{
+        margin:0;
+        font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+        -webkit-font-smoothing:antialiased;
+        -moz-osx-font-smoothing:grayscale;
+        background: var(--bg);
+        color: var(--text);
+        line-height:1.45;
+      }
+      a{ color: var(--accent); text-decoration:none; }
+      a:hover{ text-decoration:underline; }
+
+      .site-container{
+        max-width: var(--max-width);
+        margin: 0 auto;
+        padding: 0 1rem;
+      }
+
+      main { padding: 2rem 0; }
+
+      /* Utility */
+      .visually-hidden{
+        position:absolute !important;
+        height:1px; width:1px;
+        overflow:hidden; clip:rect(1px,1px,1px,1px);
+        white-space:nowrap; border:0; padding:0; margin:-1px;
+      }
+    </style>
+
+    <slot name="head" />
+  </head>
+  <body>
+    <Navbar />
+    <main class="site-container">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

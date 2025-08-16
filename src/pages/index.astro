@@ -4,26 +4,17 @@ import Hero from '../components/Hero.astro';
 import Map from '../components/Map.astro';
 import Footer from '../components/Footer.astro';
 import Features from '../components/Features.astro';
+import Layout from '../components/Layout.astro';
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Sydbane.dk</title>
-	</head>
-	<body>
-		<Navbar />
-		<Hero />
-		<Features />
-		<main style="max-width: 960px; margin: 0 auto; padding: 2rem 1rem;">
-			<section>
-				<h2>Map</h2>
-				<Map />
-			</section>
-		</main>
-		<Footer />
-	</body>
-</html>
+<Layout title="Sydbane.dk">
+	<meta slot="head" name="generator" content={Astro.generator} />
+
+	<Hero />
+	<Features />
+
+	<section style="margin-top:1.5rem; padding:2rem 0;">
+		<h2>Map</h2>
+		<Map />
+	</section>
+</Layout>
