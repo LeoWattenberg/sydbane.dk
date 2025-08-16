@@ -62,13 +62,17 @@ const autoFit = true; // Fit to highlighted line if present
       style: featureStyle,
       pointToLayer: (feature, latlng) => {
         if (feature.properties?.kind === 'station') {
+            const largeStations = new Set(['Flensburg','Padborg','Tinglev','Tønder', 'Rødekro','Kliplev','Gråsten','Sønderborg St.','Sønderborg']);
+            const name = feature.properties?.name || '';
+            const radius = largeStations.has(name) ? 9 : 6;
+            const color = largeStations.has(name) ? '#ff4d5a' : '#666';
             return L.circleMarker(latlng, {
-              radius: 6,
-              fillColor: '#ff4d5a',
+              radius,
+              fillColor: color,
               color: '#b3212e',
               weight: 1,
               opacity: 1,
-              fillOpacity: 0.9
+              fillOpacity: 1
             });
         }
         return L.circleMarker(latlng, { radius:4, fillColor:'#666', color:'#333', weight:1, opacity:0.8, fillOpacity:0.8 });
