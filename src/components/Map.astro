@@ -1,24 +1,39 @@
 ---
 // Map.astro - Leaflet map component loading custom GeoJSON
-import customData from './map/customData.geo.json';
+import customData from "./map/customData.geo.json";
 
 const zoom = 11; // Closer view on the highlighted line
 const autoFit = true; // Fit to highlighted line if present
 ---
+
 <style>
-  #leaflet-map { height: 420px; width: 100%; border-radius: 8px; overflow: hidden; }
+  #leaflet-map {
+    height: 420px;
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 4rem 0;
+  }
 </style>
-  <div id="leaflet-map" data-zoom={zoom} data-autofit={autoFit} data-geojson={JSON.stringify(customData)}></div>
+<div
+  id="leaflet-map"
+  data-zoom={zoom}
+  data-autofit={autoFit}
+  data-geojson={JSON.stringify(customData)}
+>
+</div>
 
 <!-- Load Leaflet CSS and UMD JS via CDN to avoid bare import specifier errors in the browser -->
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<link
+  rel="stylesheet"
+  href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
 <script type="module">
-
   // Only run client-side
-  if (typeof window !== 'undefined') {
-    const el = document.getElementById('leaflet-map');
+  if (typeof window !== "undefined") {
+    const el = document.getElementById("leaflet-map");
     if (el) {
       // Avoid initializing the same DOM node more than once
       if (!el._leafletInitialized) {
@@ -26,124 +41,144 @@ const autoFit = true; // Fit to highlighted line if present
 
         // Safe dataset parsing
         let center = [0, 0];
-    let zoom = 10;
-    let geojson = { type: 'FeatureCollection', features: [] };
-    let autoFit = false;
-    try {
-      center = el.dataset.center ? JSON.parse(el.dataset.center) : center;
-      zoom = el.dataset.zoom ? parseInt(el.dataset.zoom, 10) : zoom;
-      geojson = el.dataset.geojson ? JSON.parse(el.dataset.geojson) : geojson;
-      autoFit = el.dataset.autofit === 'true' || el.dataset.autofit === '1';
-    } catch (e) {
-      // if parsing fails, fall back to defaults
-      // console.warn('Map dataset parse error', e);
-    }
-
-    const TILE_URL = 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
-    const TILE_OPTS = {
-      attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
-      subdomains: 'abcd',
-      maxZoom: 20
-    };
-
-  const map = window.L ? window.L.map(el).setView(center, zoom) : L.map(el).setView(center, zoom);
-    L.tileLayer(TILE_URL, TILE_OPTS).addTo(map);
-
-    const LARGE_STATIONS = new Set(['Flensburg', 'Padborg', 'Tinglev', 'Tønder', 'Rødekro', 'Kliplev', 'Gråsten', 'Sønderborg St.', 'Sønderborg']);
-
-    function isHighlighted(feature) {
-      const p = feature && feature.properties ? feature.properties : {};
-      // Prefer explicit flags present in the GeoJSON (importance or highlight).
-      // Keep a legacy fallback for older route key used previously.
-      return p.importance === 'primary' || p.highlight === true || p.route === 'sonderborg-graasten';
-    }
-
-    function baseFeatureStyle(feature) {
-      const p = feature && feature.properties ? feature.properties : {};
-      let style;
-      if (isHighlighted(feature)) {
-        // highlighted (primary) rail
-        style = { color: '#ff8c37', weight: 6, opacity: 0.95, lineCap: 'round' };
-      } else if (p.kind === 'rail') {
-        // Base rail style (orange but thinner)
-        style = { color: '#ff8c37', weight: 3, opacity: 0.9 };
-      } else {
-        style = { color: '#4e54c8', weight: 2, opacity: 0.6, fillOpacity: 0.25 };
-      }
-      // If the GeoJSON explicitly marks the feature as dashed, render it more muted
-      if (p['stroke-dasharray']) {
-        // Use a subtle gray and lower visual weight so dashed branches recede visually
-        style.dashArray = p['stroke-dasharray'];
-        // Only mute non-highlighted routes
-        if (!isHighlighted(feature)) {
-          style.color = '#9aa0a6';
-          style.opacity = 0.6;
-          // slightly thinner so dashes read as secondary
-          style.weight = Math.max(1, (style.weight || 2) - 1);
+        let zoom = 10;
+        let geojson = { type: "FeatureCollection", features: [] };
+        let autoFit = false;
+        try {
+          center = el.dataset.center ? JSON.parse(el.dataset.center) : center;
+          zoom = el.dataset.zoom ? parseInt(el.dataset.zoom, 10) : zoom;
+          geojson = el.dataset.geojson
+            ? JSON.parse(el.dataset.geojson)
+            : geojson;
+          autoFit = el.dataset.autofit === "true" || el.dataset.autofit === "1";
+        } catch (e) {
+          // if parsing fails, fall back to defaults
+          // console.warn('Map dataset parse error', e);
         }
-      }
-      return style;
-    }
 
-    function createStationMarker(feature, latlng) {
-      const name = feature.properties?.name || '';
-      const isLarge = LARGE_STATIONS.has(name);
-      const radius = isLarge ? 9 : 6;
-      const fillColor = isLarge ? '#ff4d5a' : '#666';
-      return L.circleMarker(latlng, {
-        radius,
-        fillColor,
-        color: '#b3212e',
-        weight: 1,
-        opacity: 1,
-        fillOpacity: 1,
-      });
-    }
+        const TILE_URL =
+          "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png";
+        const TILE_OPTS = {
+          attribution: "&copy; OpenStreetMap contributors &copy; CARTO",
+          subdomains: "abcd",
+          maxZoom: 20,
+        };
 
-    const railLineLayers = [];
+        const map = window.L
+          ? window.L.map(el).setView(center, zoom)
+          : L.map(el).setView(center, zoom);
+        L.tileLayer(TILE_URL, TILE_OPTS).addTo(map);
 
-    const geoLayer = L.geoJSON(geojson, {
-      style: baseFeatureStyle,
-      pointToLayer: (feature, latlng) => {
-        if (feature.properties?.kind === 'station') return createStationMarker(feature, latlng);
-        // Non-station point (if any) – fully opaque
-        return L.circleMarker(latlng, { radius: 4, fillColor: '#666', color: '#333', weight: 1, opacity: 1, fillOpacity: 1 });
-      },
-      onEachFeature: (feature, lyr) => {
-        if (feature.properties?.name) {
-          const desc = feature.properties.description || '';
-          lyr.bindPopup(`<strong>${feature.properties.name}</strong><br/>${desc}`);
+        const LARGE_STATIONS = new Set([
+          "Flensburg",
+          "Padborg",
+          "Tinglev",
+          "Tønder",
+          "Rødekro",
+          "Kliplev",
+          "Gråsten",
+          "Sønderborg St.",
+          "Sønderborg",
+        ]);
+
+        function baseFeatureStyle(feature) {
+          const p = feature && feature.properties ? feature.properties : {};
+          let style;
+          if (p.kind === "rail") {
+            // Base rail style (secondary color but thinner)
+            style = { color: "var(--primary)", weight: 3, opacity: 0.9 };
+          } else {
+            style = {
+              color: "var(--primary)",
+              weight: 2,
+              opacity: 0.6,
+              fillOpacity: 0.25,
+            };
+          }
+          // If the GeoJSON explicitly marks the feature as dashed, render it more muted
+          if (p["stroke-dasharray"]) {
+            // Use a subtle gray and lower visual weight so dashed branches recede visually
+            style.dashArray = p["stroke-dasharray"];
+            // Only mute non-highlighted routes
+
+              style.color = "var(--primary)";
+              style.opacity = 0.6;
+              // slightly thinner so dashes read as secondary
+              style.weight = Math.max(1, (style.weight || 2) - 1);
+            
+          }
+          return style;
         }
-        // If this layer is a station marker, enforce full opacity in case a renderer
-        // or external stylesheet applied translucency after creation.
-        if (feature.properties?.kind === 'station' && typeof lyr.setStyle === 'function') {
-          try {
-            lyr.setStyle({ fillOpacity: 1, opacity: 1 });
-          } catch (e) {
-            // Not critical — silently continue if setStyle isn't supported.
+
+        function createStationMarker(feature, latlng) {
+          const name = feature.properties?.name || "";
+          const isLarge = LARGE_STATIONS.has(name);
+          const radius = isLarge ? 9 : 6;
+          const fillColor = isLarge ? "var(--primary)" : "var(--secondary)";
+          const color = isLarge ? "var(--secondary)" : "var(--primary)";
+          return L.circleMarker(latlng, {
+            radius,
+            fillColor,
+            color,
+            weight: 1,
+            opacity: 1,
+            fillOpacity: 1,
+          });
+        }
+
+        const railLineLayers = [];
+
+        const geoLayer = L.geoJSON(geojson, {
+          style: baseFeatureStyle,
+          pointToLayer: (feature, latlng) => {
+            if (feature.properties?.kind === "station")
+              return createStationMarker(feature, latlng);
+            // Non-station point (if any) – fully opaque
+            return L.circleMarker(latlng, {
+              radius: 4,
+              fillColor,
+              color,
+              weight: 1,
+              opacity: 1,
+              fillOpacity: 1,
+            });
+          },
+          onEachFeature: (feature, lyr) => {
+            if (feature.properties?.name) {
+              const desc = feature.properties.description || "";
+              lyr.bindPopup(
+                `<strong>${feature.properties.name}</strong><br/>${desc}`
+              );
+            }
+            // If this layer is a station marker, enforce full opacity in case a renderer
+            // or external stylesheet applied translucency after creation.
+            if (
+              feature.properties?.kind === "station" &&
+              typeof lyr.setStyle === "function"
+            ) {
+              try {
+                lyr.setStyle({ fillOpacity: 1, opacity: 1 });
+              } catch (e) {
+                // Not critical — silently continue if setStyle isn't supported.
+              }
+            }
+          },
+        }).addTo(map);
+
+        // Fit to the highlighted rail line(s) when requested, otherwise fit to all features
+        if (autoFit) {
+          const target = railLineLayers.length
+            ? railLineLayers
+            : geoLayer.getLayers();
+          if (target && target.length) {
+            const group = L.featureGroup(target);
+            // small padding so markers/lines don't touch the edges
+            map.fitBounds(group.getBounds(), { padding: [25, 25] });
           }
         }
-        if (isHighlighted(feature)) {
-          // keep a reference to the highlighted rail line(s)
-          railLineLayers.push(lyr);
-          lyr.on('mouseover', () => lyr.setStyle({ weight: 8 }));
-          lyr.on('mouseout', () => lyr.setStyle(baseFeatureStyle(feature)));
-        }
-      }
-    }).addTo(map);
 
-    // Fit to the highlighted rail line(s) when requested, otherwise fit to all features
-    if (autoFit) {
-      const target = railLineLayers.length ? railLineLayers : geoLayer.getLayers();
-      if (target && target.length) {
-        const group = L.featureGroup(target);
-        // small padding so markers/lines don't touch the edges
-        map.fitBounds(group.getBounds(), { padding: [25, 25] });
-      }
-    }
-
-    // Trigger a resize in case the map container was hidden before initialization
-    setTimeout(() => map.invalidateSize(), 50);
+        // Trigger a resize in case the map container was hidden before initialization
+        setTimeout(() => map.invalidateSize(), 50);
       }
     }
   }
