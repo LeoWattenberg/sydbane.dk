@@ -5,12 +5,14 @@ import Map from '../components/Map.astro';
 import Footer from '../components/Footer.astro';
 import Features from '../components/Features.astro';
 import Layout from '../components/Layout.astro';
+import About from '../components/About.astro';
 ---
 
-<Layout title="Sydbane.dk">
+<Layout title="Sydbane.dk" description="Æ Sydbane - Et stort plus til regionen">
 	<meta slot="head" name="generator" content={Astro.generator} />
 
 	<Hero />
 	<Features />
 	<Map />
+	<About />
 </Layout>
