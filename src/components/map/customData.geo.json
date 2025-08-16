@@ -116,6 +116,46 @@
       }
     },
     { "type": "Feature", "properties": { "name": "Aabenraa", "kind": "station", "description": "Aabenraa", "approximate": false }, "geometry": { "type": "Point", "coordinates": [9.418069193772794, 55.04913121024768] } },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Branch: Sønderborg St. – Nordborg",
+        "kind": "rail",
+        "route": "sonderborg-nordborg-branch",
+        "importance": "secondary",
+        "description": "Branch from Sønderborg Station north-west to Nordborg (dashed)",
+        "stroke-dasharray": "4 4",
+        "approximate": false
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [9.778601783025557, 54.91265119891017],
+          [9.794292261396638, 54.91042823111516],
+          [9.823572012824865, 54.918826721528866],
+          [9.882485059222095, 54.952999325357695],
+          [9.895653383556567, 54.96665446081045],
+          [9.867425041966484, 54.9853803964025],
+          [9.85644731515933, 54.99459899359933],
+          [9.836378853187744, 55.02622962573659],
+          [9.809939378771883, 55.03658066313642],
+          [9.790635071326774, 55.043434436119256],
+          [9.76706878089099, 55.05243603163192],
+          [9.745144789815173, 55.05503670374573]
+        ]
+      }
+    },
+    { "type": "Feature", "properties": { "name": "Sønderborg Busstation", "kind": "station", "description": "Sønderborg Busstation", "approximate": false }, "geometry": { "type": "Point", "coordinates": [9.794292261396638, 54.91042823111516] } },
+    { "type": "Feature", "properties": { "name": "Sønderborg Ø/Retten", "kind": "station", "description": "Sønderborg Ø/Retten", "approximate": false }, "geometry": { "type": "Point", "coordinates": [9.823572012824865, 54.918826721528866] } },
+    { "type": "Feature", "properties": { "name": "Augustenborg", "kind": "station", "description": "Augustenborg", "approximate": false }, "geometry": { "type": "Point", "coordinates": [9.882485059222095, 54.952999325357695] } },
+    { "type": "Feature", "properties": { "name": "Ketting", "kind": "station", "description": "Ketting", "approximate": false }, "geometry": { "type": "Point", "coordinates": [9.895653383556567, 54.96665446081045] } },
+    { "type": "Feature", "properties": { "name": "Egen", "kind": "station", "description": "Egen", "approximate": false }, "geometry": { "type": "Point", "coordinates": [9.867425041966484, 54.9853803964025] } },
+    { "type": "Feature", "properties": { "name": "Guderup /LINAK", "kind": "station", "description": "Guderup / LINAK", "approximate": false }, "geometry": { "type": "Point", "coordinates": [9.85644731515933, 54.99459899359933] } },
+    { "type": "Feature", "properties": { "name": "Svenstrup", "kind": "station", "description": "Svenstrup", "approximate": false }, "geometry": { "type": "Point", "coordinates": [9.836378853187744, 55.02622962573659] } },
+    { "type": "Feature", "properties": { "name": "Gildbro / DANFOSS", "kind": "station", "description": "Gildbro / DANFOSS", "approximate": false }, "geometry": { "type": "Point", "coordinates": [9.809939378771883, 55.03658066313642] } },
+    { "type": "Feature", "properties": { "name": "Havnbjerg", "kind": "station", "description": "Havnbjerg", "approximate": false }, "geometry": { "type": "Point", "coordinates": [9.790635071326774, 55.043434436119256] } },
+    { "type": "Feature", "properties": { "name": "Langesø", "kind": "station", "description": "Langesø", "approximate": false }, "geometry": { "type": "Point", "coordinates": [9.76706878089099, 55.05243603163192] } },
+    { "type": "Feature", "properties": { "name": "NORDBORG", "kind": "station", "description": "Nordborg", "approximate": false }, "geometry": { "type": "Point", "coordinates": [9.745144789815173, 55.05503670374573] } },
     { "type": "Feature", "properties": { "name": "Sønderborg St.", "kind": "station", "description": "Sønderborg Station" }, "geometry": { "type": "Point", "coordinates": [9.778601783025557, 54.91265119891017] } }
   ]
 }
