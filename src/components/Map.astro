@@ -108,7 +108,7 @@ const autoFit = true; // Fit to highlighted line if present
         color: '#b3212e',
         weight: 1,
         opacity: 1,
-        fillOpacity: 1
+        fillOpacity: 1,
       });
     }
 
@@ -125,6 +125,15 @@ const autoFit = true; // Fit to highlighted line if present
         if (feature.properties?.name) {
           const desc = feature.properties.description || '';
           lyr.bindPopup(`<strong>${feature.properties.name}</strong><br/>${desc}`);
+        }
+        // If this layer is a station marker, enforce full opacity in case a renderer
+        // or external stylesheet applied translucency after creation.
+        if (feature.properties?.kind === 'station' && typeof lyr.setStyle === 'function') {
+          try {
+            lyr.setStyle({ fillOpacity: 1, opacity: 1 });
+          } catch (e) {
+            // Not critical — silently continue if setStyle isn't supported.
+          }
         }
         if (isHighlighted(feature)) {
           // keep a reference to the highlighted rail line(s)
