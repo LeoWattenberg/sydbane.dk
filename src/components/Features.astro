@@ -1,18 +1,62 @@
 ---
-// Features component: simple 3x2 responsive grid of feature cards
+const features = [
+    {
+        icon: "🚆",
+        title: "Til pendler",
+        description: "Fra land til by eller Tyskland til Danmark – sydbane .",
+    },
+    {
+        icon: "🌱",
+        title: "Klimavenligt",
+        description:
+        "Kører med Danmarks grønt strøm – uden at bruge store batterier.",
+    },
+    {
+        icon: "💺",
+        title: "Komfortabelt",
+        description:
+        "Hop ind, hyg dig, læse en bog eller leje på dit mobil hvis du er på farten.",
+    },
+    {
+        icon: "🥴🍻",
+        title: "Kom sikkert hjem",
+        description: "Efter party i byen kan du komme sikkert hjem.",
+    },
+    {
+        icon: "🚗",
+        title: "Også godt til bilister",
+        description: "Hvis flere folk bruger toget er færre folk på vejen.",
+    },
+    {
+      icon: "½",
+      title: "Halvejs færdig",
+      description: "Strækningen er allerede bygget. Vi mangler kun stationer.",
+    },
+];
 ---
 
+<section class="features-section">
+  <h2 style="text-align:center; margin-bottom:1rem;">Features</h2>
+  <div class="features-grid" id="features">
+    {
+      features.map((feature) => (
+        <div class="feature-card">
+          <div class="feature-icon">{feature.icon}</div>
+          <h3 class="feature-title">{feature.title}</h3>
+          <p class="feature-desc">{feature.description}</p>
+        </div>
+      ))
+    }
+  </div>
+</section>
+
 <style>
-  .features-section {
-    max-width: 960px;
-    margin: 0 auto;
-    padding: 2rem 1rem;
-  }
   .features-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
-    align-items: start;
+    gap: 2rem;
+    padding: 2rem;
+    position: relative;
   }
   @media (max-width: 900px) {
     .features-grid {
@@ -25,65 +69,42 @@
     }
   }
   .feature-card {
-    background: white;
-    border-radius: 0.5rem;
-    padding: 1.25rem;
-    box-shadow: 0 6px 18px rgba(16,24,40,0.06);
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    align-items: center;
+    padding: 1.5rem;
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(4px);
+    position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  .feature-card::before {
+    content: "";
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0.6rem;
+    pointer-events: none;
   }
   .feature-icon {
-    font-size: 1.5rem;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
   }
   .feature-title {
-    font-weight: 700;
-    margin: 0;
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: #1a1a1a;
   }
   .feature-desc {
-    margin: 0;
     color: #444;
-    font-size: 0.95rem;
+    text-align: center;
+    line-height: 1.5;
+    font-size: 1rem;
   }
 </style>
-
-<section class="features-section">
-  <h2 style="text-align:center; margin-bottom:1rem;">Features</h2>
-  <div class="features-grid">
-    <article class="feature-card">
-      <div class="feature-icon">🚆</div>
-      <h3 class="feature-title">Frequent Trains</h3>
-      <p class="feature-desc">Regular, reliable connections along the southern coast.</p>
-    </article>
-
-    <article class="feature-card">
-      <div class="feature-icon">🗺️</div>
-      <h3 class="feature-title">Interactive Map</h3>
-      <p class="feature-desc">Explore routes and points of interest with our map.</p>
-    </article>
-
-    <article class="feature-card">
-      <div class="feature-icon">⏱️</div>
-      <h3 class="feature-title">Real-time Schedules</h3>
-      <p class="feature-desc">Stay up to date with live departure and arrival times.</p>
-    </article>
-
-    <article class="feature-card">
-      <div class="feature-icon">💺</div>
-      <h3 class="feature-title">Comfortable Cars</h3>
-      <p class="feature-desc">Modern, comfortable carriages for a pleasant journey.</p>
-    </article>
-
-    <article class="feature-card">
-      <div class="feature-icon">🌿</div>
-      <h3 class="feature-title">Scenic Routes</h3>
-      <p class="feature-desc">Routes that showcase the beautiful south coast landscape.</p>
-    </article>
-
-    <article class="feature-card">
-      <div class="feature-icon">🔒</div>
-      <h3 class="feature-title">Safe Travel</h3>
-      <p class="feature-desc">Safety-first practices and well-maintained infrastructure.</p>
-    </article>
-  </div>
-</section>
