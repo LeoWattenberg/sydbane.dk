@@ -12,12 +12,11 @@ const autoFit = true; // Fit to highlighted line if present
     width: 100%;
     border-radius: 8px;
     overflow: hidden;
-    margin: 4rem 0 1rem 0;
   }
   
   .map-legend {
     max-width: 800px;
-    margin: 0 auto 4rem auto;
+    margin: 2rem auto 4rem auto;
     padding: 1.5rem;
     background: #fff;
     border-radius: 8px;
@@ -94,8 +93,14 @@ const autoFit = true; // Fit to highlighted line if present
     height: 8px;
     background-color: var(--secondary);
   }
+  h2 {
+    font-size: 1.5rem;
+    margin: 2rem auto;
+  }
 </style>
-<div
+<section id="map">
+  <h2>Kort</h2>
+  <div
   id="leaflet-map"
   data-zoom={zoom}
   data-autofit={autoFit}
@@ -145,6 +150,7 @@ const autoFit = true; // Fit to highlighted line if present
     </div>
   </div>
 </div>
+</section>
 
 <!-- Load Leaflet CSS and UMD JS via CDN to avoid bare import specifier errors in the browser -->
 <link

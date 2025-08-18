@@ -30,6 +30,14 @@
   .nav-list a {
     color: white;
     text-decoration: none;
+    transition: opacity 0.2s ease;
+  }
+  .nav-list a:hover {
+    opacity: 0.8;
+  }
+  /* Smooth scrolling for anchor links */
+  html {
+    scroll-behavior: smooth;
   }
 </style>
 
@@ -39,7 +47,8 @@
     Sydbane
   </a>
   <ul class="nav-list">
-    <li><a href="/about">About</a></li>
-    <li><a href="/contact">Contact</a></li>
+    <li><a href="#features">Fordeler</a></li>
+    <li><a href="#map">Kort</a></li>
+    <li><a href="#about">Om</a></li>
   </ul>
 </nav>
