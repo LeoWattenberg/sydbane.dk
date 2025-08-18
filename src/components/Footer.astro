@@ -1,36 +1,62 @@
 ---
 // src/components/Footer.astro
 const year = new Date().getFullYear();
-const siteName = 'Sydbane.dk';
+const siteName = "Sydbane.dk";
 ---
+
 <style>
-  .footer { 
-    background:#222; 
-    color:#eee; 
-    padding:2rem 1rem; 
-    font-size:0.95rem; 
+  .footer {
+    background: #222;
+    color: #eee;
+    padding: 2rem 1rem;
+    font-size: 0.95rem;
   }
-  .footer-inner { 
-    max-width:960px; 
-    margin:0 auto; 
-    display:flex; 
-    flex-direction:column; 
-    gap:1.25rem; 
+  .footer-inner {
+    max-width: 960px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
   }
-  .footer-top { 
-    display:flex; 
-    flex-wrap:wrap; 
-    gap:2rem; 
-    align-items:flex-start; 
+  .footer-top {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    align-items: flex-start;
   }
-  .brand { font-weight:600; letter-spacing:0.5px; }
-  .footer-nav { list-style:none; padding:0; margin:0; display:flex; gap:1rem; flex-wrap:wrap; }
-  .footer-nav a { color:#eee; text-decoration:none; }
-  .footer-nav a:hover, .footer-nav a:focus { text-decoration:underline; }
-  .legal { opacity:0.7; }
-  @media (min-width: 640px){
-    .footer-inner { flex-direction:column; }
-    .footer-top { justify-content:space-between; }
+  .brand {
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+  .footer-nav {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .footer-nav a,
+  .legal a {
+    color: #eee;
+    text-decoration: none;
+  }
+  .footer-nav a:hover,
+  .footer-nav a:focus,
+  .legal a:focus,
+  .legal a:hover {
+    text-decoration: underline;
+  }
+  .legal {
+    opacity: 0.7;
+  }
+  @media (min-width: 640px) {
+    .footer-inner {
+      flex-direction: column;
+    }
+    .footer-top {
+      justify-content: space-between;
+    }
   }
 </style>
 <footer class="footer" role="contentinfo">
@@ -40,10 +66,20 @@ const siteName = 'Sydbane.dk';
       <ul class="footer-nav" aria-label="Footer navigation">
         <li><a href="https://kw.media/impressum">Impressum</a></li>
         <li><a href="https://www.letbaner.dk">Letbaner.dk</a></li>
-        <li><a href="https://www.region.dk/region/dk/">Region Sønderjylland – Schleswig</a></li>
+        <li>
+          <a href="https://www.region.dk/region/dk/"
+            >Region Sønderjylland – Schleswig</a>
+        </li>
         <li><a href="https://graenseforeningen.dk/">Grænseforeningen</a></li>
       </ul>
     </div>
-    <div class="legal">© {year} {siteName}. All rights reserved.</div>
+    <div class="legal">
+      © {year}
+      {siteName}. Code <a href="https://www.gnu.org/licenses/gpl-3.0.html"
+        >GPLv3</a
+      > (<a href="https://github.com/LeoWattenberg/sydbane.dk">GitHub</a>). Indeholder <a href="https://creativecommons.org/licenses/by-sa/4.0/"
+        >CC-by-sa 4.0</a
+      >.
+    </div>
   </div>
 </footer>
