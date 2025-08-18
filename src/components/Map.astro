@@ -12,7 +12,87 @@ const autoFit = true; // Fit to highlighted line if present
     width: 100%;
     border-radius: 8px;
     overflow: hidden;
-    margin: 4rem 0;
+    margin: 4rem 0 1rem 0;
+  }
+  
+  .map-legend {
+    max-width: 800px;
+    margin: 0 auto 4rem auto;
+    padding: 1.5rem;
+    background: #fff;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+    font-size: 0.9rem;
+  }
+  
+  .legend-title {
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: #333;
+  }
+  
+  .legend-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+  
+  .legend-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  
+  .legend-symbol {
+    display: flex;
+    align-items: center;
+    min-width: 30px;
+  }
+  
+  .legend-line {
+    width: 24px;
+    height: 3px;
+    background-color: var(--primary);
+  }
+  
+  .legend-line.dashed {
+    background: repeating-linear-gradient(
+      to right,
+      var(--primary) 0px,
+      var(--primary) 4px,
+      transparent 4px,
+      transparent 8px
+    );
+  }
+  
+  .legend-station {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 1px solid var(--primary);
+  }
+  
+  .legend-station.large {
+    width: 18px;
+    height: 18px;
+    background-color: var(--primary);
+    border-color: var(--secondary);
+  }
+  
+  .legend-station.regular {
+    background-color: var(--secondary);
+  }
+  
+  .legend-station.small {
+    width: 8px;
+    height: 8px;
+    background-color: var(--secondary);
   }
 </style>
 <div
@@ -21,6 +101,49 @@ const autoFit = true; // Fit to highlighted line if present
   data-autofit={autoFit}
   data-geojson={JSON.stringify(customData)}
 >
+</div>
+
+<div class="map-legend">
+  <div class="legend-title">Legende</div>
+  <div class="legend-grid">
+    <div class="legend-section">
+      <strong>Strækninger</strong>
+      <div class="legend-item">
+        <div class="legend-symbol">
+          <div class="legend-line"></div>
+        </div>
+        <span>Eksisterende strækninger</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-symbol">
+          <div class="legend-line dashed"></div>
+        </div>
+        <span>Gammle strækninger (skal genoprættes)</span>
+      </div>
+    </div>
+    
+    <div class="legend-section">
+      <strong>Stationer</strong>
+      <div class="legend-item">
+        <div class="legend-symbol">
+          <div class="legend-station large"></div>
+        </div>
+        <span>Eksisterende stationer</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-symbol">
+          <div class="legend-station regular"></div>
+        </div>
+        <span>Stationer hos eksisterende strækninger</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-symbol">
+          <div class="legend-station small"></div>
+        </div>
+        <span>Nye stationer (planlagt)</span>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- Load Leaflet CSS and UMD JS via CDN to avoid bare import specifier errors in the browser -->
