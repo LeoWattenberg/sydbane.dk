@@ -1,0 +1,455 @@
+---
+// Plan.astro - Tube map style diagram component
+import customData from "./map/customData.geo.json";
+---
+
+<style>
+  .tube-map {
+    background: white;
+    border-radius: 8px;
+    padding: 2rem;
+    margin: 2rem 0;
+    overflow-x: auto;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .map-container {
+    position: relative;
+    min-width: 900px;
+    height: 500px;
+    margin: 0 auto;
+  }
+
+  /* Rail lines */
+  .rail-line {
+    position: absolute;
+    background-color: var(--primary);
+    z-index: 1;
+  }
+
+  .rail-line.horizontal {
+    height: 4px;
+  }
+
+  .rail-line.vertical {
+    width: 4px;
+  }
+
+  .rail-line.dashed {
+    background: repeating-linear-gradient(
+      to right,
+      var(--primary) 0px,
+      var(--primary) 8px,
+      transparent 8px,
+      transparent 16px
+    );
+  }
+
+  .rail-line.vertical.dashed {
+    background: repeating-linear-gradient(
+      to bottom,
+      var(--primary) 0px,
+      var(--primary) 8px,
+      transparent 8px,
+      transparent 16px
+    );
+  }
+
+  /* Stations */
+  .station {
+    position: absolute;
+    border-radius: 50%;
+    background: var(--secondary);
+    border: 2px solid var(--primary);
+    z-index: 3;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+  }
+
+  .station:hover {
+    transform: scale(1.2);
+  }
+
+  .station.major {
+    width: 20px;
+    height: 20px;
+    background: var(--primary);
+    border-color: var(--secondary);
+  }
+
+  .station.regular {
+    width: 14px;
+    height: 14px;
+  }
+
+  .station.small {
+    width: 10px;
+    height: 10px;
+  }
+
+  /* Station labels */
+  .station-label {
+    position: absolute;
+    font-size: 12px;
+    font-weight: 500;
+    white-space: nowrap;
+    color: var(--text);
+    z-index: 4;
+    pointer-events: none;
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+  }
+
+  .station-label.above {
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-bottom: 8px;
+  }
+
+  .station-label.below {
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 8px;
+  }
+
+  .station-label.below.angled {
+    transform: translateX(1em) rotate(30deg);
+    transform-origin: center top;
+    margin-top: 12px;
+  }
+
+  .station-label.left {
+    right: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-right: 8px;
+  }
+
+  .station-label.right {
+    left: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-left: 8px;
+  }
+
+  /* Junction circles for line intersections */
+  .junction {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--primary);
+    z-index: 2;
+  }
+
+  /* Legend */
+  .tube-map-legend {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+  }
+
+  .legend-title {
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: #333;
+  }
+
+  .legend-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+  }
+
+  .legend-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .legend-symbol {
+    display: flex;
+    align-items: center;
+    min-width: 30px;
+  }
+
+  .legend-line {
+    width: 24px;
+    height: 4px;
+    background-color: var(--primary);
+  }
+
+  .legend-line.dashed {
+    background: repeating-linear-gradient(
+      to right,
+      var(--primary) 0px,
+      var(--primary) 4px,
+      transparent 4px,
+      transparent 8px
+    );
+  }
+
+  .legend-station {
+    border-radius: 50%;
+    border: 2px solid var(--primary);
+  }
+
+  .legend-station.major {
+    width: 20px;
+    height: 20px;
+    background-color: var(--primary);
+    border-color: var(--secondary);
+  }
+
+  .legend-station.regular {
+    width: 14px;
+    height: 14px;
+    background-color: var(--secondary);
+  }
+
+  .legend-station.small {
+    width: 10px;
+    height: 10px;
+    background-color: var(--secondary);
+  }
+
+  h2 {
+    font-size: 1.5rem;
+    margin: 2rem auto 1rem auto;
+    text-align: center;
+  }
+  .station-label.below.angled.tinglev {
+    transform: translateX(10px) rotate(30deg);
+    transform-origin: center top;
+    margin-top: 12px;
+  }
+</style>
+
+<section id="plan">
+  <h2>Linjeplan</h2>
+  
+  <div class="tube-map">
+    <div class="map-container">
+      <!-- Main line: Straight horizontal line from Tønder to Sønderborg St -->
+      <div class="rail-line horizontal" style="left: 70px; top: 300px; width: 680px;"></div>
+      
+      <!-- Vertical line: Rødekro to Flensburg through Tinglev -->
+      <div class="rail-line vertical" style="left: 300px; top: 180px; width: 4px; height: 290px;"></div>
+
+      <!-- Vertical line: Rødekro to Flensburg through Tinglev -->
+      <div class="rail-line vertical" style="left: 300px; top: 180px; width: 4px; height: 290px;"></div>
+
+      <!-- Tinglev-Rødekro branch (now part of vertical line) -->
+
+      <!-- Rødekro to Aabenraa branch (dashed) -->
+      <div class="rail-line horizontal dashed" style="left: 300px; top: 200px; width: 100px;"></div>
+
+      <!-- Sønderborg to Nordborg branch (dashed) -->
+      <div class="rail-line horizontal dashed" style="left: 740px; top: 300px; width: 40px;"></div>
+      <!-- <div class="rail-line vertical dashed" style="left: 780px; top: 80px; height: 220px;"></div> -->
+
+      <!-- Junctions -->
+      <div class="junction" style="left: 296px; top: 296px;"></div>
+      <div class="junction" style="left: 296px; top: 196px;"></div>
+      <div class="junction" style="left: 736px; top: 296px;"></div>
+
+      <!-- Main line stations -->
+      <div class="station major" style="left: 80px; top: 290px;">
+        <div class="station-label below angled">Tønder</div>
+      </div>
+      
+      <div class="station regular" style="left: 120px; top: 292px;">
+        <div class="station-label below angled">Jejsing</div>
+      </div>
+      
+      <div class="station regular" style="left: 160px; top: 292px;">
+        <div class="station-label below angled">Bylderup</div>
+      </div>
+      
+      <div class="station regular" style="left: 200px; top: 292px;">
+        <div class="station-label below angled">Terkelsbøl</div>
+      </div>
+      
+      <div class="station major" style="left: 290px; top: 290px;">
+        <div class="station-label below angled tinglev">Tinglev</div>
+      </div>
+      
+      <div class="station regular" style="left: 340px; top: 292px;">
+        <div class="station-label below angled">Bjerndrup</div>
+      </div>
+      
+      <div class="station major" style="left: 380px; top: 290px;">
+        <div class="station-label below angled">Kliplev</div>
+      </div>
+      
+      <div class="station regular" style="left: 420px; top: 292px;">
+        <div class="station-label below angled">Lundtoft</div>
+      </div>
+      
+      <div class="station regular" style="left: 460px; top: 292px;">
+        <div class="station-label below angled">Tørsbøl</div>
+      </div>
+      
+      <div class="station regular" style="left: 500px; top: 292px;">
+        <div class="station-label below angled">Rinkenæs</div>
+      </div>
+      
+      <div class="station major" style="left: 540px; top: 290px;">
+        <div class="station-label below angled">Gråsten</div>
+      </div>
+      
+      <div class="station regular" style="left: 580px; top: 292px;">
+        <div class="station-label below angled">Adsbøl</div>
+      </div>
+      
+      <div class="station regular" style="left: 620px; top: 292px;">
+        <div class="station-label below angled">Avnbøl</div>
+      </div>
+      
+      <div class="station regular" style="left: 660px; top: 292px;">
+        <div class="station-label below angled vsottrup">V. Sottrup</div>
+      </div>
+      
+      <div class="station regular" style="left: 700px; top: 292px;">
+        <div class="station-label below angled">Ragebøl</div>
+      </div>
+      
+      <div class="station major" style="left: 730px; top: 290px;">
+        <div class="station-label below angled">Sønderborg St.</div>
+      </div>
+
+      <!-- Vertical line stations (top to bottom: Rødekro to Flensburg) -->
+      <div class="station major" style="left: 290px; top: 190px;">
+        <div class="station-label left">Rødekro</div>
+      </div>
+      
+      <div class="station regular" style="left: 292px; top: 230px;">
+        <div class="station-label left">Hjordkær</div>
+      </div>
+      
+      <div class="station regular" style="left: 292px; top: 260px;">
+        <div class="station-label left">Borderslev</div>
+      </div>
+      
+      <!-- Tinglev is already positioned as part of the horizontal line -->
+      
+      <div class="station regular" style="left: 292px; top: 350px;">
+        <div class="station-label left">Bajstrup</div>
+      </div>
+      
+      <div class="station regular" style="left: 292px; top: 380px;">
+        <div class="station-label left">Schafhaus</div>
+      </div>
+      
+      <div class="station major" style="left: 290px; top: 420px;">
+        <div class="station-label left">Padborg</div>
+      </div>
+      
+      <div class="station major" style="left: 290px; top: 460px;">
+        <div class="station-label left">Flensburg</div>
+      </div>
+
+      <!-- Dashed branch stations -->
+      <div class="station small" style="left: 390px; top: 195px;">
+        <div class="station-label above">Aabenraa</div>
+      </div>
+
+      <!-- Sønderborg-Nordborg branch stations (in sequential order) -->
+      <div class="station small" style="left: 772px; top: 290px;">
+        <div class="station-label right">Sønderborg Busstation</div>
+      </div>
+      
+      <div class="station small" style="left: 772px; top: 270px;">
+        <div class="station-label right">Sønderborg Ø/Retten</div>
+      </div>
+      
+      <div class="station small" style="left: 772px; top: 250px;">
+        <div class="station-label right">Augustenborg</div>
+      </div>
+      
+      <div class="station small" style="left: 772px; top: 230px;">
+        <div class="station-label right">Ketting</div>
+      </div>
+      
+      <div class="station small" style="left: 772px; top: 210px;">
+        <div class="station-label right">Egen</div>
+      </div>
+      
+      <div class="station small" style="left: 772px; top: 190px;">
+        <div class="station-label right">Guderup/LINAK</div>
+      </div>
+      
+      <div class="station small" style="left: 772px; top: 170px;">
+        <div class="station-label right">Svenstrup</div>
+      </div>
+      
+      <div class="station small" style="left: 772px; top: 150px;">
+        <div class="station-label right">Gildbro/DANFOSS</div>
+      </div>
+      
+      <div class="station small" style="left: 772px; top: 130px;">
+        <div class="station-label right">Havnbjerg</div>
+      </div>
+      
+      <div class="station small" style="left: 772px; top: 110px;">
+        <div class="station-label right">Langesø</div>
+      </div>
+      
+      <div class="station small" style="left: 772px; top: 90px;">
+        <div class="station-label right">NORDBORG</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tube-map-legend">
+    <div class="legend-title">Linjeplan - Legende</div>
+    <div class="legend-grid">
+      <div class="legend-section">
+        <strong>Banestrækninger</strong>
+        <div class="legend-item">
+          <div class="legend-symbol">
+            <div class="legend-line"></div>
+          </div>
+          <span>Eksisterende strækninger</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-symbol">
+            <div class="legend-line dashed"></div>
+          </div>
+          <span>Tidligere strækninger (skal genopbygges)</span>
+        </div>
+      </div>
+      
+      <div class="legend-section">
+        <strong>Stationstyper</strong>
+        <div class="legend-item">
+          <div class="legend-symbol">
+            <div class="legend-station major"></div>
+          </div>
+          <span>Hovedstationer</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-symbol">
+            <div class="legend-station regular"></div>
+          </div>
+          <span>Almindelige stationer</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-symbol">
+            <div class="legend-station small"></div>
+          </div>
+          <span>Stationer på genopbyggede strækninger</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
