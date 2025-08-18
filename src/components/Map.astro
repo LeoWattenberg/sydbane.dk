@@ -194,8 +194,8 @@ const autoFit = true; // Fit to highlighted line if present
         };
 
         const map = window.L
-          ? window.L.map(el).setView(center, zoom)
-          : L.map(el).setView(center, zoom);
+          ? window.L.map(el, { scrollWheelZoom: false }).setView(center, zoom)
+          : L.map(el, { scrollWheelZoom: false }).setView(center, zoom);
         L.tileLayer(TILE_URL, TILE_OPTS).addTo(map);
 
         const LARGE_STATIONS = new Set([
