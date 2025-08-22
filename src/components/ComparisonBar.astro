@@ -1,0 +1,103 @@
+---
+interface Props {
+  leftLabel?: string;
+  rightLabel?: string;
+  leftValue: number;
+  rightValue: number;
+  maxValue?: number;
+  leftColor?: string;
+  rightColor?: string;
+}
+
+const {
+  leftLabel = 'Nuværende',
+  rightLabel = 'Fremtidig',
+  leftValue,
+  rightValue,
+  maxValue,
+  leftColor = '#0b74de',
+  rightColor = '#0bb07a',
+} = Astro.props as Props;
+
+const max = typeof maxValue === 'number' ? maxValue : Math.max(Math.abs(leftValue), Math.abs(rightValue), 1);
+const leftPct = Math.round((leftValue / max) * 100);
+const rightPct = Math.round((rightValue / max) * 100);
+---
+
+<div class="comparison-bar" role="group" aria-label="Sammenligning">
+  <div class="row">
+    <div class="label">{leftLabel}</div>
+    <div class="bar-wrap" aria-hidden>
+      <div class="bar left" style={`width:${leftPct}%; background:${leftColor}`}></div>
+      <div class="bar fill" style={`width:${100 - leftPct}%; opacity:0`}></div>
+    </div>
+    <div class="value">{leftValue}</div>
+  </div>
+
+  <div class="row">
+    <div class="label">{rightLabel}</div>
+    <div class="bar-wrap" aria-hidden>
+      <div class="bar right" style={`width:${rightPct}%; background:${rightColor}`}></div>
+      <div class="bar fill" style={`width:${100 - rightPct}%; opacity:0`}></div>
+    </div>
+    <div class="value">{rightValue}</div>
+  </div>
+<!-- 
+  <div class="legend">
+    <span class="legend-item"><span class="swatch" style={`background:${leftColor}`}></span>{leftLabel}</span>
+    <span class="legend-item"><span class="swatch" style={`background:${rightColor}`}></span>{rightLabel}</span>
+  </div>
+-->
+</div>
+
+<style>
+.comparison-bar {
+  max-width: 720px;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+}
+.row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 10px 0;
+}
+.label {
+  width: 140px;
+  flex: 0 0 140px;
+  font-size: 0.95rem;
+  color: #0f1720;
+}
+.bar-wrap {
+  flex: 1 1 auto;
+  background: #e6e9ee;
+  height: 18px;
+  border-radius: 9px;
+  overflow: hidden;
+  position: relative;
+}
+.bar {
+  height: 100%;
+  border-radius: 9px;
+  transition: width 400ms ease;
+}
+.value {
+  width: 72px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  color: #0f1720;
+}
+.legend {
+  margin-top: 12px;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  font-size: 0.9rem;
+  color: #334155;
+}
+.legend-item { display:flex; align-items:center; gap:8px }
+.swatch { display:inline-block; width:14px; height:12px; border-radius:3px }
+@media (max-width:520px) {
+  .label { width: 110px; flex-basis:110px }
+  .value { width:52px }
+}
+</style>

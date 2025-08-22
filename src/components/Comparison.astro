@@ -1,0 +1,48 @@
+---
+import ComparisonBar from './ComparisonBar.astro';
+
+---
+
+<section class="cmp-section">
+  <div class="container">
+    <header class="header">
+      <h2>Ikke et luftkastel</h2>
+      <p>Når vi sammenligner Sydbanen med bilinfrastruktur, fremstår bilcentrismen i den nuværende infrastruktur som dybt fejlagtig. For eksempel, hvis vi kun betragter vejudvidelsen fra 2-sporet til 4-sporet, som er planlagt for Als–Fyn-forbindelsen, kan vi se vejtrafikkens ineffektivitet.</p>
+    </header>
+
+    <div class="comparisons">
+      <div class="card">
+        <h3>Omkostninger for landanlæg (mio kr.)</h3>
+        <ComparisonBar leftLabel="Als-Fyn (uden bro)" rightLabel="Sydbane*" leftValue={3200} rightValue={3300} leftColor="#6b7280" rightColor="var(--secondary)" />
+      </div>
+
+      <div class="card">
+        <h3>Forventet passager (personer/dag)</h3>
+        <ComparisonBar leftLabel="Als-Fyn**" rightLabel="Sydbane*" leftValue={ 9840} rightValue={20000} leftColor="#6b7280" rightColor="var(--secondary)" />
+      </div>
+
+      <div class="card">
+        <h3>Længde (km)</h3>
+        <ComparisonBar leftLabel="Als-Fyn (uden bro)" rightLabel="Sydbane" leftValue={50} rightValue={106} leftColor="#6b7280" rightColor="var(--secondary)" />
+      </div>
+      <div class="card">
+        <h3>Energiforbrug per 1000 passagerer (kWh)</h3>
+        <ComparisonBar leftLabel="Als-Fyn (biler)" rightLabel="Sydbane" leftValue={140} rightValue={19}  leftColor="#6b7280" rightColor="var(--secondary)" />
+      </div>
+    </div>
+    <p class="smaller">* omtrentlig overslag, **officielle overslag fra als-fyn.dk, 1.2 personer/bil</p>
+  </div>
+</section>
+
+<style>
+.cmp-section { background: #fff; color: #0f1720; padding: 40px 12px; border-radius: 8px;}
+.container { max-width: 980px; margin: 0 auto }
+.header { text-align: center; max-width: 720px; margin: 0 auto 28px }
+.header h2 { margin: 0 0 8px; font-size: 28px }
+.header p { margin: 0; color: #475569 }
+.comparisons { display: grid; grid-template-columns: 1fr; gap: 18px }
+.card { background: #f8fafc; border: 1px solid #e6eef6; padding: 16px; border-radius:8px }
+.card h3 { margin: 0 0 12px; font-size: 16px }
+.smaller { font-size: 0.8rem; color: #6b7280; margin-top: 12px; }
+@media (min-width:760px) { .comparisons { grid-template-columns: 1fr 1fr } }
+</style>
